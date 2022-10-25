@@ -6,7 +6,7 @@ import { moviesSlice } from './features/movie/moviesSlice'
 
 export const store = configureStore({
   reducer: {
-    movieData: moviesSlice.reducer,
+    moviesData: moviesSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({ immutableCheck: true })
