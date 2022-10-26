@@ -5,6 +5,8 @@ import type { TMovie, TMovieStore, TSearchMovie } from './types'
 const initialState: TMovieStore = {
   moviesData: null,
   totalResults: '',
+  apiResponse: null,
+  apiError: null,
   loadingMoviesData: false,
   errorMoviesData: '',
 }
@@ -12,18 +14,22 @@ const initialState: TMovieStore = {
 const url = process.env.REACT_APP_BASE_URL as string
 const apiKey = process.env.REACT_APP_API_KEY as string
 
-export const searchMovies = createAsyncThunk<TSearchMovie, { page: number }>(
-  'searchMovie',
-  async ({ page }) => {
-    const response = await axios.get(url, {
-      params: { apiKey: apiKey, s: 'Batman', y: '', page: page },
-    })
-    const data: Array<TMovie> = response.data.Search
-    const totalResults: string = response.data.totalResults
+export const searchMovies = createAsyncThunk<
+  TSearchMovie,
+  { page: number; movieName: string; movieYear: string }
+>('searchMovie', async ({ page, movieName, movieYear }) => {
+  const response = await axios.get(url, {
+    params: { apiKey: apiKey, s: movieName, y: movieYear, page: page },
+  })
+  console.log(response)
 
-    return { data, totalResults }
-  }
-)
+  const data: Array<TMovie> = response.data.Search
+  const totalResults: string = response.data.totalResults
+  const apiResponse: string = response.data.Response
+  const apiError: string = response.data.Error
+
+  return { data, totalResults, apiResponse, apiError }
+})
 
 export const moviesSlice = createSlice({
   name: 'moviesData',
@@ -39,6 +45,8 @@ export const moviesSlice = createSlice({
         loadingMoviesData: false,
         moviesData: action.payload.data,
         totalResults: action.payload.totalResults,
+        apiResponse: action.payload.apiResponse,
+        apiError: action.payload.apiError,
         errorMoviesData: '',
       }
     })

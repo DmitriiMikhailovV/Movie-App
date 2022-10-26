@@ -1,6 +1,8 @@
 export type TMovieStore = {
   moviesData: Array<TMovie> | null
   totalResults: string
+  apiResponse: string | null
+  apiError: string | null
   loadingMoviesData: Boolean
   errorMoviesData: string | undefined
 }
@@ -22,4 +24,6 @@ export type Rating = {
 export type TSearchMovie = {
   data: Array<TMovie>
   totalResults: string
+  apiResponse: string | null
+  apiError: string | null
 }
