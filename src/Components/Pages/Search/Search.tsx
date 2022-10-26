@@ -19,9 +19,6 @@ export const Search: FC = () => {
     setPage(value)
   }
 
-  console.log(page)
-  console.log(moviesData)
-
   return (
     <>
       {moviesData?.map((item) => (

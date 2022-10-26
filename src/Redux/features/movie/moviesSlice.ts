@@ -3,16 +3,10 @@ import axios from 'axios'
 import type { TMovie, TMovieStore, TSearchMovie } from './types'
 
 const initialState: TMovieStore = {
-  userInputMovie: '',
   moviesData: null,
   totalResults: '',
   loadingMoviesData: false,
   errorMoviesData: '',
-  year: '',
-  currentPage: 1,
-  pages: null,
-  ratings: null,
-  genres: ['none'],
 }
 
 const url = process.env.REACT_APP_BASE_URL as string
