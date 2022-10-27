@@ -12,7 +12,7 @@ import { MovieCard, Pagination } from 'src/Components/generic'
 import { searchMovies } from 'src/Redux/features/movie/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 
-export const Search: FC = () => {
+export const SearchPage: FC = () => {
   const [page, setPage] = useState<number>(1)
   const [movieName, setMovieName] = useState<string>('')
   const [movieYear, setMovieYear] = useState<string>('')
@@ -88,12 +88,13 @@ export const Search: FC = () => {
             ) : apiResponse === 'False' ? (
               apiError
             ) : (
-              moviesData?.map(({ imdbID, Title, Year, Poster }) => (
+              moviesData?.map((movie) => (
                 <MovieCard
-                  key={imdbID}
-                  Title={Title}
-                  Year={Year}
-                  Poster={Poster}
+                  key={movie.imdbID}
+                  movie={movie}
+                  // Title={Title}
+                  // Year={Year}
+                  // Poster={Poster}
                 />
               ))
             )}

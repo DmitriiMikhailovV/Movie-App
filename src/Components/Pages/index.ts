@@ -1,1 +1,3 @@
-export * from './Search'
+export * from './SearchPage'
+export * from './RatingsPage'
+export * from './Header'

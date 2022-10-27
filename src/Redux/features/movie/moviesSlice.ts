@@ -9,6 +9,7 @@ const initialState: TMovieStore = {
   apiError: null,
   loadingMoviesData: false,
   errorMoviesData: '',
+  ratedMovies: [],
 }
 
 const url = process.env.REACT_APP_BASE_URL as string
@@ -19,10 +20,13 @@ export const searchMovies = createAsyncThunk<
   { page: number; movieName: string; movieYear: string }
 >('searchMovie', async ({ page, movieName, movieYear }) => {
   const response = await axios.get(url, {
-    params: { apiKey: apiKey, s: movieName, y: movieYear, page: page },
+    params: {
+      apiKey: apiKey,
+      s: movieName,
+      y: movieYear,
+      page: page,
+    },
   })
-  console.log(response)
-
   const data: Array<TMovie> = response.data.Search
   const totalResults: string = response.data.totalResults
   const apiResponse: string = response.data.Response
@@ -34,7 +38,25 @@ export const searchMovies = createAsyncThunk<
 export const moviesSlice = createSlice({
   name: 'moviesData',
   initialState,
-  reducers: {},
+  reducers: {
+    addRatingOfMovie: (state, action): TMovieStore => {
+      if (
+        state.ratedMovies.find(({ imdbID }) => imdbID === action.payload.imdbID)
+      ) {
+        return {
+          ...state,
+          ratedMovies: state.ratedMovies.map((movie) =>
+            movie.imdbID === action.payload.imdbID ? action.payload : movie
+          ),
+        }
+      } else {
+        return {
+          ...state,
+          ratedMovies: [...state.ratedMovies, action.payload],
+        }
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(searchMovies.pending, (state) => {
       return { ...state, loadingMoviesData: true }
@@ -60,3 +82,5 @@ export const moviesSlice = createSlice({
     })
   },
 })
+
+export const { addRatingOfMovie } = moviesSlice.actions

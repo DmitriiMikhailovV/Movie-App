@@ -5,6 +5,7 @@ export type TMovieStore = {
   apiError: string | null
   loadingMoviesData: Boolean
   errorMoviesData: string | undefined
+  ratedMovies: Array<TRatedMovie>
 }
 
 export type TMovie = {
@@ -13,11 +14,16 @@ export type TMovie = {
   imdbID: string
   Type: string
   Poster: string
+  Genre: string
+}
+
+export type TRatedMovie = TMovie & {
+  rating: number
 }
 
 export type Rating = {
   imdbID: string
-  rating: Number
+  rating: number
   genre: string
 }
 
