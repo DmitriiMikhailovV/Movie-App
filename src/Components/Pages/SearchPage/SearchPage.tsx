@@ -7,16 +7,19 @@ import {
   TextField,
   Button,
   CircularProgress,
+  IconButton,
 } from '@mui/material'
 import { MovieCard, Pagination } from 'src/Components/generic'
 import { searchMovies } from 'src/Redux/features/movie/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 import { useMovieName, usePagination, useYear } from 'src/Components/Hooks'
+import { Clear } from '@mui/icons-material'
 
 export const SearchPage: FC = () => {
-  const { movieNameParams, handleMovieNameChange } = useMovieName()
+  const { movieNameParams, handleMovieNameChange, deleteMovieName } =
+    useMovieName()
   const { pageParams, handlePageChange } = usePagination()
-  const { yearParams, handleYearChange } = useYear()
+  const { yearParams, handleYearChange, deleteYear } = useYear()
   const [page, setPage] = useState<number>(pageParams)
   const [movieName, setMovieName] = useState<string>(movieNameParams)
   const [movieYear, setMovieYear] = useState<string>(yearParams)
@@ -30,7 +33,7 @@ export const SearchPage: FC = () => {
   } = useAppSelector((state) => state.moviesData)
   const dispatch = useDispatch<AppDispatch>()
 
-  const handleChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
+  const onChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage)
     dispatch(searchMovies({ page: newPage, movieName, movieYear }))
     handlePageChange(newPage)
@@ -41,6 +44,16 @@ export const SearchPage: FC = () => {
     handleMovieNameChange(movieName)
     movieYear.length > 0 && handleYearChange(movieYear)
     dispatch(searchMovies({ page: 1, movieName, movieYear }))
+  }
+
+  const onClearMovieName = () => {
+    setMovieName('')
+    deleteMovieName()
+  }
+
+  const onClearYear = () => {
+    setMovieYear('')
+    deleteYear()
   }
 
   errorMoviesData && console.log(errorMoviesData)
@@ -63,6 +76,13 @@ export const SearchPage: FC = () => {
               variant="standard"
               value={movieName}
               onChange={(e) => setMovieName(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <IconButton disabled={movieName.length == 0}>
+                    <Clear onClick={onClearMovieName} />
+                  </IconButton>
+                ),
+              }}
             />
             <TextField
               sx={{ width: 300, maxWidth: '100%', marginY: '8px' }}
@@ -70,6 +90,13 @@ export const SearchPage: FC = () => {
               variant="standard"
               value={movieYear}
               onChange={(e) => setMovieYear(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <IconButton disabled={movieYear.length == 0}>
+                    <Clear onClick={onClearYear} />
+                  </IconButton>
+                ),
+              }}
             />
             <Button
               sx={{ marginY: '8px' }}
@@ -87,7 +114,7 @@ export const SearchPage: FC = () => {
               <Pagination
                 total={totalResults}
                 page={page}
-                onChange={handleChangePage}
+                onChange={onChangePage}
                 size="large"
               />
             </Grid>

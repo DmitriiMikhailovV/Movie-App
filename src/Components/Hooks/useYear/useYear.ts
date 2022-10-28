@@ -17,8 +17,14 @@ export const useYear = (): TUseYear => {
     setSearchParams(searchParams)
   }
 
+  const deleteYear = () => {
+    searchParams.delete(YearQuery.year)
+    setSearchParams(searchParams)
+  }
+
   return {
     yearParams,
     handleYearChange,
+    deleteYear,
   }
 }
