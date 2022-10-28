@@ -5,30 +5,58 @@ import type { TMovie, TMovieStore, TSearchMovie } from './types'
 const initialState: TMovieStore = {
   moviesData: null,
   totalResults: '',
+  apiResponse: null,
+  apiError: null,
   loadingMoviesData: false,
   errorMoviesData: '',
+  ratedMovies: [],
 }
 
 const url = process.env.REACT_APP_BASE_URL as string
 const apiKey = process.env.REACT_APP_API_KEY as string
 
-export const searchMovies = createAsyncThunk<TSearchMovie, { page: number }>(
-  'searchMovie',
-  async ({ page }) => {
-    const response = await axios.get(url, {
-      params: { apiKey: apiKey, s: 'Batman', y: '', page: page },
-    })
-    const data: Array<TMovie> = response.data.Search
-    const totalResults: string = response.data.totalResults
+export const searchMovies = createAsyncThunk<
+  TSearchMovie,
+  { page: number; movieName: string; movieYear: string }
+>('searchMovie', async ({ page, movieName, movieYear }) => {
+  const response = await axios.get(url, {
+    params: {
+      apiKey: apiKey,
+      s: movieName,
+      y: movieYear,
+      page: page,
+    },
+  })
+  const data: Array<TMovie> = response.data.Search
+  const totalResults: string = response.data.totalResults
+  const apiResponse: string = response.data.Response
+  const apiError: string = response.data.Error
 
-    return { data, totalResults }
-  }
-)
+  return { data, totalResults, apiResponse, apiError }
+})
 
 export const moviesSlice = createSlice({
   name: 'moviesData',
   initialState,
-  reducers: {},
+  reducers: {
+    addRatingOfMovie: (state, action): TMovieStore => {
+      if (
+        state.ratedMovies.find(({ imdbID }) => imdbID === action.payload.imdbID)
+      ) {
+        return {
+          ...state,
+          ratedMovies: state.ratedMovies.map((movie) =>
+            movie.imdbID === action.payload.imdbID ? action.payload : movie
+          ),
+        }
+      } else {
+        return {
+          ...state,
+          ratedMovies: [...state.ratedMovies, action.payload],
+        }
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(searchMovies.pending, (state) => {
       return { ...state, loadingMoviesData: true }
@@ -39,6 +67,8 @@ export const moviesSlice = createSlice({
         loadingMoviesData: false,
         moviesData: action.payload.data,
         totalResults: action.payload.totalResults,
+        apiResponse: action.payload.apiResponse,
+        apiError: action.payload.apiError,
         errorMoviesData: '',
       }
     })
@@ -52,3 +82,5 @@ export const moviesSlice = createSlice({
     })
   },
 })
+
+export const { addRatingOfMovie } = moviesSlice.actions

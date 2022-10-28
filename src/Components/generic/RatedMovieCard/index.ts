@@ -1,0 +1,1 @@
+export { RatedMovieCard } from './RatedMovieCard'
