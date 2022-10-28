@@ -13,10 +13,12 @@ import { addRatingOfMovie } from 'src/Redux/features/movie/moviesSlice'
 import { AppDispatch } from 'src/Redux/store'
 
 import { TMovieCard } from './types'
+import { useNavigate } from 'react-router-dom'
 
-export const MovieCard: FC<TMovieCard> = ({ movie }) => {
+export const MovieCard: FC<TMovieCard> = ({ movie, ...rest }) => {
   const [rating, setRating] = useState<number | null>(null)
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
 
   const ratedMovie = { ...movie, rating: rating }
 
@@ -51,11 +53,17 @@ export const MovieCard: FC<TMovieCard> = ({ movie }) => {
             setRating(newValue)
           }}
         />
+        <Button onClick={handleClick} variant="contained">
+          Submit Rating
+        </Button>
         <Typography gutterBottom variant="h6">
           {movie.Title} ({movie.Year})
         </Typography>
-        <Button onClick={handleClick} variant="contained">
-          Submit Rating
+        <Button
+          onClick={() => navigate(`/movie/${movie.imdbID}`)}
+          variant="contained"
+        >
+          Detail
         </Button>
       </CardContent>
     </Card>

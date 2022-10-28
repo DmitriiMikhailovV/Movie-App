@@ -11,11 +11,15 @@ import {
 import { MovieCard, Pagination } from 'src/Components/generic'
 import { searchMovies } from 'src/Redux/features/movie/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
+import { useMovieName, usePagination, useYear } from 'src/Components/Hooks'
 
 export const SearchPage: FC = () => {
-  const [page, setPage] = useState<number>(1)
-  const [movieName, setMovieName] = useState<string>('')
-  const [movieYear, setMovieYear] = useState<string>('')
+  const { movieNameParams, handleMovieNameChange } = useMovieName()
+  const { pageParams, handlePageChange } = usePagination()
+  const { yearParams, handleYearChange } = useYear()
+  const [page, setPage] = useState<number>(pageParams)
+  const [movieName, setMovieName] = useState<string>(movieNameParams)
+  const [movieYear, setMovieYear] = useState<string>(yearParams)
   const {
     moviesData,
     totalResults,
@@ -26,9 +30,17 @@ export const SearchPage: FC = () => {
   } = useAppSelector((state) => state.moviesData)
   const dispatch = useDispatch<AppDispatch>()
 
-  const handleChange = (e: ChangeEvent<unknown>, value: number) => {
-    setPage(value)
-    dispatch(searchMovies({ page, movieName, movieYear }))
+  const handleChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
+    setPage(newPage)
+    dispatch(searchMovies({ page: newPage, movieName, movieYear }))
+    handlePageChange(newPage)
+  }
+
+  const onSearch = () => {
+    setPage(1)
+    handleMovieNameChange(movieName)
+    movieYear.length > 0 && handleYearChange(movieYear)
+    dispatch(searchMovies({ page: 1, movieName, movieYear }))
   }
 
   errorMoviesData && console.log(errorMoviesData)
@@ -62,9 +74,7 @@ export const SearchPage: FC = () => {
             <Button
               sx={{ marginY: '8px' }}
               variant="contained"
-              onClick={() =>
-                dispatch(searchMovies({ page, movieName, movieYear }))
-              }
+              onClick={onSearch}
             >
               Search
             </Button>
@@ -77,7 +87,7 @@ export const SearchPage: FC = () => {
               <Pagination
                 total={totalResults}
                 page={page}
-                onChange={handleChange}
+                onChange={handleChangePage}
                 size="large"
               />
             </Grid>
@@ -89,13 +99,7 @@ export const SearchPage: FC = () => {
               apiError
             ) : (
               moviesData?.map((movie) => (
-                <MovieCard
-                  key={movie.imdbID}
-                  movie={movie}
-                  // Title={Title}
-                  // Year={Year}
-                  // Poster={Poster}
-                />
+                <MovieCard key={movie.imdbID} movie={movie} />
               ))
             )}
           </Grid>
