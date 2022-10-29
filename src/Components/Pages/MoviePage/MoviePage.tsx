@@ -8,28 +8,24 @@ import {
   Rating,
   Typography,
 } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchMovieById } from 'src/Components/Hooks'
 import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
-import { TRatedMovie } from 'src/Redux/features/movies/types'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 
 export const MoviePage: FC = () => {
   const { imdbID } = useParams()
   const { movie, loading, apiError, error } = useFetchMovieById(imdbID)
   const { ratedMovies } = useAppSelector((state) => state.moviesData)
-  const [ratingMovie, setRatingMovie] = useState<TRatedMovie | undefined>(
-    ratedMovies.find((ratedMovie) => ratedMovie.imdbID === imdbID)
-  )
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
   const onChangeRating = (newValue: number | null) => {
     dispatch(
       addRatingOfMovie({
-        ...ratingMovie,
+        ...ratedMovies.find((ratedMovie) => ratedMovie.imdbID === imdbID),
         rating: newValue,
         imdbID: imdbID,
       })
