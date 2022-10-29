@@ -43,7 +43,7 @@ export const SearchedMovieCard: FC<TMovieCard> = ({
       >
         Rate the movie:
         <Rating
-          value={rating?.rating}
+          value={rating === undefined ? null : rating.rating}
           onChange={(e, newValue) => {
             onChange(rating, newValue, imdbID)
           }}

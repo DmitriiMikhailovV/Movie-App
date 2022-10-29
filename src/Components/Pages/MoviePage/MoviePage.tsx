@@ -104,7 +104,11 @@ export const MoviePage: FC = () => {
                     marginBottom: '8px',
                   }}
                   value={
-                    ratedMovies.find((movie) => movie.imdbID === imdbID)?.rating
+                    ratedMovies.find((movie) => movie.imdbID === imdbID)
+                      ?.rating === undefined
+                      ? null
+                      : ratedMovies.find((movie) => movie.imdbID === imdbID)
+                          ?.rating
                   }
                   onChange={(e, newValue) => {
                     onChangeRating(newValue)

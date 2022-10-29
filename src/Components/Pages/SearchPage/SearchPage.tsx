@@ -12,6 +12,7 @@ import {
 import { SearchedMovieCard, Pagination } from 'src/Components/generic'
 import {
   addRatingOfMovie,
+  resetTotalResults,
   searchMovies,
 } from 'src/Redux/features/movies/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
@@ -56,6 +57,9 @@ export const SearchPage: FC = () => {
   const onClearMovieName = () => {
     setMovieName('')
     deleteMovieName()
+    setMovieYear('')
+    deleteYear()
+    dispatch(resetTotalResults())
   }
 
   const onClearYear = () => {
@@ -133,6 +137,7 @@ export const SearchPage: FC = () => {
               sx={{ marginY: '8px' }}
               variant="contained"
               onClick={onSearch}
+              disabled={movieName.length === 0}
             >
               Search
             </Button>
@@ -142,12 +147,14 @@ export const SearchPage: FC = () => {
               container
               sx={{ marginTop: '16px', justifyContent: 'center' }}
             >
-              <Pagination
-                total={totalResults}
-                page={page}
-                onChange={onChangePage}
-                size="large"
-              />
+              {movieName.length !== 0 && (
+                <Pagination
+                  total={totalResults}
+                  page={page}
+                  onChange={onChangePage}
+                  size="large"
+                />
+              )}
             </Grid>
           )}
           <Grid container sx={{ justifyContent: 'space-around' }}>
