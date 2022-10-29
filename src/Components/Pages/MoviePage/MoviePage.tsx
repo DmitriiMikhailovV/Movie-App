@@ -8,35 +8,32 @@ import {
   Rating,
   Typography,
 } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchMovieById } from 'src/Components/Hooks'
 import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
+import { TRatedMovie } from 'src/Redux/features/movies/types'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 
 export const MoviePage: FC = () => {
   const { imdbID } = useParams()
   const { movie, loading, apiError, error } = useFetchMovieById(imdbID)
   const { ratedMovies } = useAppSelector((state) => state.moviesData)
-  const [ratingMovie, setRatingMovie] = useState<{
-    imdbID: string | undefined
-    rating: number | null
-  }>({ imdbID: imdbID, rating: null })
+  const [ratingMovie, setRatingMovie] = useState<TRatedMovie | undefined>(
+    ratedMovies.find((ratedMovie) => ratedMovie.imdbID === imdbID)
+  )
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const ratingOfMovie = ratedMovies.find(
-      ({ imdbID }) => imdbID === movie?.imdbID
+  const onChangeRating = (newValue: number | null) => {
+    dispatch(
+      addRatingOfMovie({
+        ...ratingMovie,
+        rating: newValue,
+        imdbID: imdbID,
+      })
     )
-    console.log(ratingOfMovie)
-
-    ratingOfMovie && setRatingMovie(ratingOfMovie)
-  }, [movie])
-
-  const handleClick = () => {
-    dispatch(addRatingOfMovie(ratingMovie))
   }
 
   error && console.log(error)
@@ -110,14 +107,13 @@ export const MoviePage: FC = () => {
                   sx={{
                     marginBottom: '8px',
                   }}
-                  value={ratingMovie?.rating}
+                  value={
+                    ratedMovies.find((movie) => movie.imdbID === imdbID)?.rating
+                  }
                   onChange={(e, newValue) => {
-                    setRatingMovie({ ...ratingMovie, rating: newValue })
+                    onChangeRating(newValue)
                   }}
                 />
-                <Button onClick={handleClick} variant="contained">
-                  Submit Rating
-                </Button>
               </Grid>
             </CardContent>
           </Card>

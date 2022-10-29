@@ -18,8 +18,8 @@ export type TMovie = {
 }
 
 export type TRatedMovie = {
-  imdbID: string
-  rating: number
+  imdbID: string | undefined
+  rating: number | null
 }
 
 export type Rating = {

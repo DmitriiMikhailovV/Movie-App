@@ -23,6 +23,7 @@ export const SearchPage: FC = () => {
   const [page, setPage] = useState<number>(pageParams)
   const [movieName, setMovieName] = useState<string>(movieNameParams)
   const [movieYear, setMovieYear] = useState<string>(yearParams)
+  const { ratedMovies } = useAppSelector((state) => state.moviesData)
 
   const {
     moviesData,
@@ -139,6 +140,7 @@ export const SearchPage: FC = () => {
                   Poster={Poster}
                   Title={Title}
                   Year={Year}
+                  rating={ratedMovies.find((movie) => movie.imdbID === imdbID)}
                 />
               ))
             )}

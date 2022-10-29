@@ -1,49 +1,37 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import {
   Card,
   CardMedia,
   CardContent,
   Typography,
-  // Rating,
+  Rating,
   Button,
 } from '@mui/material'
-// import { useDispatch } from 'react-redux'
-
-// import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
-// import { AppDispatch, useAppSelector } from 'src/Redux/store'
-
 import type { TMovieCard } from './types'
 import { useNavigate } from 'react-router-dom'
+import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
+import { AppDispatch } from 'src/Redux/store'
+import { useDispatch } from 'react-redux'
 
 export const SearchedMovieCard: FC<TMovieCard> = ({
   imdbID,
   Poster,
   Title,
   Year,
+  rating,
 }) => {
-  // console.log(imdbID)
-  // const { ratedMovies } = useAppSelector((state) => state.moviesData)
-  // const ratingOfMovie = ratedMovies.find(({ imdbID }) => imdbID === imdbID)
-  // const [rating, setRating] = useState<number | null>(null)
-
-  // const [ratingMovie, setRatingMovie] = useState<
-  //   | {
-  //       imdbID: string
-  //       rating: number | null
-  //     }
-  //   | undefined
-  // >(ratingOfMovie)
-  // const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
-  // ratingOfMovie && setRatingMovie(ratingOfMovie)
-
-  // const ratedMovie = { imdbID, rating: rating }
-
-  // const handleClick = () => {
-  //   console.log(ratingMovie)
-  //   dispatch(addRatingOfMovie(ratingMovie))
-  // }
+  const onChangeRating = (newValue: number | null) => {
+    dispatch(
+      addRatingOfMovie({
+        ...rating,
+        rating: newValue,
+        imdbID: imdbID,
+      })
+    )
+  }
 
   return (
     <Card
@@ -68,17 +56,13 @@ export const SearchedMovieCard: FC<TMovieCard> = ({
           height: '100%',
         }}
       >
-        {/* Rate the movie:
+        Rate the movie:
         <Rating
-          name="simple-controlled"
-          value={ratingMovie?.rating}
+          value={rating?.rating}
           onChange={(e, newValue) => {
-            setRatingMovie({ ...ratingMovie, rating: newValue })
+            onChangeRating(newValue)
           }}
-        /> */}
-        {/* <Button onClick={handleClick} variant="contained">
-          Submit Rating
-        </Button> */}
+        />
         <Typography gutterBottom variant="h6">
           {Title} ({Year})
         </Typography>
