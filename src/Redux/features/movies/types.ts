@@ -17,8 +17,9 @@ export type TMovie = {
   Genre: string
 }
 
-export type TRatedMovie = TMovie & {
-  rating: number
+export type TRatedMovie = {
+  imdbID: string | undefined
+  rating: number | null
 }
 
 export type Rating = {

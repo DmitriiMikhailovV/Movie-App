@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { TypedUseSelectorHook } from 'react-redux'
-
-import { moviesSlice } from './features/movie/moviesSlice'
+import { movieByIdSlice, moviesSlice } from './features'
 
 export const store = configureStore({
   reducer: {
     moviesData: moviesSlice.reducer,
+    movieById: movieByIdSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({ immutableCheck: true })

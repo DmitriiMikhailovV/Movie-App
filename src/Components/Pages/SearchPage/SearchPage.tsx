@@ -9,8 +9,8 @@ import {
   CircularProgress,
   IconButton,
 } from '@mui/material'
-import { MovieCard, Pagination } from 'src/Components/generic'
-import { searchMovies } from 'src/Redux/features/movie/moviesSlice'
+import { SearchedMovieCard, Pagination } from 'src/Components/generic'
+import { searchMovies } from 'src/Redux/features/movies/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 import { useMovieName, usePagination, useYear } from 'src/Components/Hooks'
 import { Clear } from '@mui/icons-material'
@@ -23,6 +23,8 @@ export const SearchPage: FC = () => {
   const [page, setPage] = useState<number>(pageParams)
   const [movieName, setMovieName] = useState<string>(movieNameParams)
   const [movieYear, setMovieYear] = useState<string>(yearParams)
+  const { ratedMovies } = useAppSelector((state) => state.moviesData)
+
   const {
     moviesData,
     totalResults,
@@ -78,8 +80,11 @@ export const SearchPage: FC = () => {
               onChange={(e) => setMovieName(e.target.value)}
               InputProps={{
                 endAdornment: (
-                  <IconButton disabled={movieName.length == 0}>
-                    <Clear onClick={onClearMovieName} />
+                  <IconButton
+                    disabled={movieName.length === 0}
+                    onClick={onClearMovieName}
+                  >
+                    <Clear />
                   </IconButton>
                 ),
               }}
@@ -92,8 +97,11 @@ export const SearchPage: FC = () => {
               onChange={(e) => setMovieYear(e.target.value)}
               InputProps={{
                 endAdornment: (
-                  <IconButton disabled={movieYear.length == 0}>
-                    <Clear onClick={onClearYear} />
+                  <IconButton
+                    disabled={movieYear.length === 0}
+                    onClick={onClearYear}
+                  >
+                    <Clear />
                   </IconButton>
                 ),
               }}
@@ -125,8 +133,15 @@ export const SearchPage: FC = () => {
             ) : apiResponse === 'False' ? (
               apiError
             ) : (
-              moviesData?.map((movie) => (
-                <MovieCard key={movie.imdbID} movie={movie} />
+              moviesData?.map(({ imdbID, Poster, Title, Year }) => (
+                <SearchedMovieCard
+                  key={imdbID}
+                  imdbID={imdbID}
+                  Poster={Poster}
+                  Title={Title}
+                  Year={Year}
+                  rating={ratedMovies.find((movie) => movie.imdbID === imdbID)}
+                />
               ))
             )}
           </Grid>

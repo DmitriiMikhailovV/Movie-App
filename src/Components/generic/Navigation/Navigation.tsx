@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 
-import { TNavigation } from './types'
+import type { TNavigation } from './types'
 
 export const Navigation: FC<TNavigation> = ({
   pages,
