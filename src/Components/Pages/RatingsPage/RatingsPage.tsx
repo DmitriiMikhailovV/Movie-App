@@ -1,14 +1,14 @@
 import { FC } from 'react'
 import { Box, Container } from '@mui/material'
-import { RatedMovieCard } from 'src/Components/generic'
-import { useAppSelector } from 'src/Redux/store'
+// import { RatedMovieCard } from 'src/Components/generic'
+// import { useAppSelector } from 'src/Redux/store'
 
 export const RatingsPage: FC = () => {
-  const { ratedMovies } = useAppSelector((state) => state.moviesData)
+  // const { ratedMovies } = useAppSelector((state) => state.moviesData)
   return (
     <Box>
       <Container sx={{ py: 3 }} maxWidth="lg">
-        {ratedMovies.map(
+        {/* {ratedMovies.map(
           ({ imdbID, Poster, Title, Year, Type, Genre, rating }) => (
             <RatedMovieCard
               key={imdbID}
@@ -21,7 +21,7 @@ export const RatingsPage: FC = () => {
               rating={rating}
             />
           )
-        )}
+        )} */}
       </Container>
     </Box>
   )

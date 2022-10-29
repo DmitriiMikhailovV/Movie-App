@@ -17,7 +17,8 @@ export type TMovie = {
   Genre: string
 }
 
-export type TRatedMovie = TMovie & {
+export type TRatedMovie = {
+  imdbID: string
   rating: number
 }
 

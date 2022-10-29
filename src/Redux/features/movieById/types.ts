@@ -31,6 +31,7 @@ export type TMovieById = {
   Production: string
   Website: string
   Response: string
+  rating?: number
 }
 
 export type TSearchMovieById = {

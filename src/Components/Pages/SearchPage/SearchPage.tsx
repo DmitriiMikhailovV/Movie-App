@@ -23,6 +23,7 @@ export const SearchPage: FC = () => {
   const [page, setPage] = useState<number>(pageParams)
   const [movieName, setMovieName] = useState<string>(movieNameParams)
   const [movieYear, setMovieYear] = useState<string>(yearParams)
+
   const {
     moviesData,
     totalResults,
@@ -131,8 +132,14 @@ export const SearchPage: FC = () => {
             ) : apiResponse === 'False' ? (
               apiError
             ) : (
-              moviesData?.map((movie) => (
-                <SearchedMovieCard key={movie.imdbID} movie={movie} />
+              moviesData?.map(({ imdbID, Poster, Title, Year }) => (
+                <SearchedMovieCard
+                  key={imdbID}
+                  imdbID={imdbID}
+                  Poster={Poster}
+                  Title={Title}
+                  Year={Year}
+                />
               ))
             )}
           </Grid>

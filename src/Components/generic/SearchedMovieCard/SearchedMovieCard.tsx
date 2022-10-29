@@ -1,30 +1,49 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import {
   Card,
   CardMedia,
   CardContent,
   Typography,
-  Rating,
+  // Rating,
   Button,
 } from '@mui/material'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 
-import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
-import { AppDispatch } from 'src/Redux/store'
+// import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
+// import { AppDispatch, useAppSelector } from 'src/Redux/store'
 
 import type { TMovieCard } from './types'
 import { useNavigate } from 'react-router-dom'
 
-export const SearchedMovieCard: FC<TMovieCard> = ({ movie, ...rest }) => {
-  const [rating, setRating] = useState<number | null>(null)
-  const dispatch = useDispatch<AppDispatch>()
+export const SearchedMovieCard: FC<TMovieCard> = ({
+  imdbID,
+  Poster,
+  Title,
+  Year,
+}) => {
+  // console.log(imdbID)
+  // const { ratedMovies } = useAppSelector((state) => state.moviesData)
+  // const ratingOfMovie = ratedMovies.find(({ imdbID }) => imdbID === imdbID)
+  // const [rating, setRating] = useState<number | null>(null)
+
+  // const [ratingMovie, setRatingMovie] = useState<
+  //   | {
+  //       imdbID: string
+  //       rating: number | null
+  //     }
+  //   | undefined
+  // >(ratingOfMovie)
+  // const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
-  const ratedMovie = { ...movie, rating: rating }
+  // ratingOfMovie && setRatingMovie(ratingOfMovie)
 
-  const handleClick = () => {
-    dispatch(addRatingOfMovie(ratedMovie))
-  }
+  // const ratedMovie = { imdbID, rating: rating }
+
+  // const handleClick = () => {
+  //   console.log(ratingMovie)
+  //   dispatch(addRatingOfMovie(ratingMovie))
+  // }
 
   return (
     <Card
@@ -41,26 +60,30 @@ export const SearchedMovieCard: FC<TMovieCard> = ({ movie, ...rest }) => {
         sx={{
           9: 16,
         }}
-        image={movie.Poster}
-        alt={movie.Title}
+        image={Poster}
+        alt={Title}
       />
-      <CardContent>
-        Rate the movie:
+      <CardContent
+        sx={{
+          height: '100%',
+        }}
+      >
+        {/* Rate the movie:
         <Rating
           name="simple-controlled"
-          value={rating}
+          value={ratingMovie?.rating}
           onChange={(e, newValue) => {
-            setRating(newValue)
+            setRatingMovie({ ...ratingMovie, rating: newValue })
           }}
-        />
-        <Button onClick={handleClick} variant="contained">
+        /> */}
+        {/* <Button onClick={handleClick} variant="contained">
           Submit Rating
-        </Button>
+        </Button> */}
         <Typography gutterBottom variant="h6">
-          {movie.Title} ({movie.Year})
+          {Title} ({Year})
         </Typography>
         <Button
-          onClick={() => navigate(`/movie/${movie.imdbID}`)}
+          onClick={() => navigate(`/movie/${imdbID}`)}
           variant="contained"
         >
           Detail

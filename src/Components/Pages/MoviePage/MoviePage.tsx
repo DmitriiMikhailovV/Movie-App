@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -7,29 +8,44 @@ import {
   Rating,
   Typography,
 } from '@mui/material'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { searchMovieById } from 'src/Redux/features/movieById/movieByIdSlice'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useFetchMovieById } from 'src/Components/Hooks'
+import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 
 export const MoviePage: FC = () => {
   const { imdbID } = useParams()
+  const { movie, loading, apiError, error } = useFetchMovieById(imdbID)
+  const { ratedMovies } = useAppSelector((state) => state.moviesData)
+  const [ratingMovie, setRatingMovie] = useState<{
+    imdbID: string | undefined
+    rating: number | null
+  }>({ imdbID: imdbID, rating: null })
   const dispatch = useDispatch<AppDispatch>()
-  const { movie, apiResponse, apiError, errorMovie, loadingMovie } =
-    useAppSelector((state) => state.movieById)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(searchMovieById({ imdbID }))
-  }, [])
+    const ratingOfMovie = ratedMovies.find(
+      ({ imdbID }) => imdbID === movie?.imdbID
+    )
+    console.log(ratingOfMovie)
 
-  errorMovie && console.log(errorMovie)
+    ratingOfMovie && setRatingMovie(ratingOfMovie)
+  }, [movie])
+
+  const handleClick = () => {
+    dispatch(addRatingOfMovie(ratingMovie))
+  }
+
+  error && console.log(error)
 
   return (
     <>
-      {loadingMovie ? (
+      {loading ? (
         <CircularProgress />
-      ) : apiResponse === 'False' ? (
+      ) : apiError ? (
         apiError
       ) : (
         <Grid
@@ -54,6 +70,15 @@ export const MoviePage: FC = () => {
               alt={movie?.Title}
             />
             <CardContent sx={{ flex: 1 }}>
+              <Button
+                sx={{
+                  marginBottom: '16px',
+                }}
+                variant="contained"
+                onClick={() => navigate(-1)}
+              >
+                Back to search
+              </Button>
               <Typography component="h2" variant="h5" paragraph>
                 Title: {movie?.Title}
               </Typography>
@@ -72,7 +97,28 @@ export const MoviePage: FC = () => {
                 Description: {movie?.Plot}
               </Typography>
               <Typography variant="subtitle1">Movie Rating:</Typography>
-              <Rating name="read-only" readOnly />
+              <Grid
+                container
+                sx={{
+                  marginTop: '8px',
+                  flexDirection: 'column',
+                  alignContent: 'flex-start',
+                }}
+              >
+                <Rating
+                  name="read-only"
+                  sx={{
+                    marginBottom: '8px',
+                  }}
+                  value={ratingMovie?.rating}
+                  onChange={(e, newValue) => {
+                    setRatingMovie({ ...ratingMovie, rating: newValue })
+                  }}
+                />
+                <Button onClick={handleClick} variant="contained">
+                  Submit Rating
+                </Button>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>

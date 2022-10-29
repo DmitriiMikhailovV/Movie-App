@@ -1,5 +1,6 @@
-import { TMovie } from 'src/Redux/features/movies/types'
-
 export type TMovieCard = {
-  movie: TMovie
+  imdbID: string
+  Poster: string
+  Title: string
+  Year: string
 }
