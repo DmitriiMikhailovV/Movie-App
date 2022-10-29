@@ -58,57 +58,72 @@ export const RatingsPage: FC = () => {
 
   return (
     <Box>
-      <Container
-        sx={{ display: 'flex', flexDirection: 'column', py: 3 }}
-        maxWidth="lg"
-      >
-        <Typography variant="subtitle1">Filter by genre</Typography>
-        <Select
-          sx={{ marginBottom: '16px' }}
-          value={genreFilter}
-          defaultValue={''}
-          displayEmpty
-          onChange={(e) => setGenreFilter(e.target.value)}
+      {movies?.length === 0 ? (
+        <Container
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            py: 3,
+          }}
+          maxWidth="lg"
         >
-          <MenuItem value="">None</MenuItem>
-          {genres.map((genre) => (
-            <MenuItem key={genre} value={genre}>
-              {genre}
-            </MenuItem>
-          ))}
-        </Select>
-        <>
-          {genreFilter.length === 0
-            ? movies?.map(
-                ({ imdbID, Poster, Title, Year, Type, Genre, rating }) => (
-                  <RatedMovieCard
-                    key={imdbID}
-                    imdbID={imdbID}
-                    Poster={Poster}
-                    Title={Title}
-                    Year={Year}
-                    Type={Type}
-                    Genre={Genre}
-                    rating={rating}
-                  />
+          <Typography variant="h5">No Rated movies</Typography>
+        </Container>
+      ) : (
+        <Container
+          sx={{ display: 'flex', flexDirection: 'column', py: 3 }}
+          maxWidth="lg"
+        >
+          <Typography variant="subtitle1">Filter by genre</Typography>
+          <Select
+            sx={{ marginBottom: '16px' }}
+            value={genreFilter}
+            defaultValue={''}
+            displayEmpty
+            onChange={(e) => setGenreFilter(e.target.value)}
+          >
+            <MenuItem value="">None</MenuItem>
+            {genres.map((genre) => (
+              <MenuItem key={genre} value={genre}>
+                {genre}
+              </MenuItem>
+            ))}
+          </Select>
+          <>
+            {genreFilter.length === 0
+              ? movies?.map(
+                  ({ imdbID, Poster, Title, Year, Type, Genre, rating }) => (
+                    <RatedMovieCard
+                      key={imdbID}
+                      imdbID={imdbID}
+                      Poster={Poster}
+                      Title={Title}
+                      Year={Year}
+                      Type={Type}
+                      Genre={Genre}
+                      rating={rating}
+                    />
+                  )
                 )
-              )
-            : movies
-                ?.filter((movie) => movie.Genre.includes(genreFilter))
-                .map(({ imdbID, Poster, Title, Year, Type, Genre, rating }) => (
-                  <RatedMovieCard
-                    key={imdbID}
-                    imdbID={imdbID}
-                    Poster={Poster}
-                    Title={Title}
-                    Year={Year}
-                    Type={Type}
-                    Genre={Genre}
-                    rating={rating}
-                  />
-                ))}
-        </>
-      </Container>
+              : movies
+                  ?.filter((movie) => movie.Genre.includes(genreFilter))
+                  .map(
+                    ({ imdbID, Poster, Title, Year, Type, Genre, rating }) => (
+                      <RatedMovieCard
+                        key={imdbID}
+                        imdbID={imdbID}
+                        Poster={Poster}
+                        Title={Title}
+                        Year={Year}
+                        Type={Type}
+                        Genre={Genre}
+                        rating={rating}
+                      />
+                    )
+                  )}
+          </>
+        </Container>
+      )}
     </Box>
   )
 }

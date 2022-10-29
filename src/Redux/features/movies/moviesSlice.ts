@@ -43,17 +43,32 @@ export const moviesSlice = createSlice({
       if (
         state.ratedMovies.find(({ imdbID }) => imdbID === action.payload.imdbID)
       ) {
-        return {
-          ...state,
-          ratedMovies: state.ratedMovies.map((movie) =>
-            movie.imdbID === action.payload.imdbID ? action.payload : movie
-          ),
+        if (action.payload.rating === null) {
+          return {
+            ...state,
+            ratedMovies: state.ratedMovies.filter(
+              (movie) => movie.imdbID !== action.payload.imdbID
+            ),
+          }
+        } else {
+          return {
+            ...state,
+            ratedMovies: state.ratedMovies.map((movie) =>
+              movie.imdbID === action.payload.imdbID ? action.payload : movie
+            ),
+          }
         }
       } else {
         return {
           ...state,
           ratedMovies: [...state.ratedMovies, action.payload],
         }
+      }
+    },
+    resetTotalResults: (state) => {
+      return {
+        ...state,
+        totalResults: '',
       }
     },
   },
@@ -83,4 +98,4 @@ export const moviesSlice = createSlice({
   },
 })
 
-export const { addRatingOfMovie } = moviesSlice.actions
+export const { addRatingOfMovie, resetTotalResults } = moviesSlice.actions
