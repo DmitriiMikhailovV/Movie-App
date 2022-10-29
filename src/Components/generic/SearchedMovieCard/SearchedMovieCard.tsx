@@ -9,13 +9,13 @@ import {
 } from '@mui/material'
 import { useDispatch } from 'react-redux'
 
-import { addRatingOfMovie } from 'src/Redux/features/movie/moviesSlice'
+import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
 import { AppDispatch } from 'src/Redux/store'
 
-import { TMovieCard } from './types'
+import type { TMovieCard } from './types'
 import { useNavigate } from 'react-router-dom'
 
-export const MovieCard: FC<TMovieCard> = ({ movie, ...rest }) => {
+export const SearchedMovieCard: FC<TMovieCard> = ({ movie, ...rest }) => {
   const [rating, setRating] = useState<number | null>(null)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()

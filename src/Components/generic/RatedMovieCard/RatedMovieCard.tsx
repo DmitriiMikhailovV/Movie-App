@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 
-import { TRatedMovieCard } from './types'
+import type { TRatedMovieCard } from './types'
 
 export const RatedMovieCard: FC<TRatedMovieCard> = ({
   Poster,

@@ -1,4 +1,4 @@
 export { Pagination } from './Pagination'
-export { MovieCard } from './MovieCard'
+export { SearchedMovieCard } from './SearchedMovieCard'
 export { RatedMovieCard } from './RatedMovieCard'
 export { Navigation } from './Navigation'
