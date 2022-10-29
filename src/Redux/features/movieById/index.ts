@@ -1,0 +1,1 @@
+export { movieByIdSlice } from './movieByIdSlice'

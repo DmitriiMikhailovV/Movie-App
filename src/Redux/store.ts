@@ -1,8 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { TypedUseSelectorHook } from 'react-redux'
-import { movieByIdSlice } from './features/movieById/movieByIdSlice'
-import { moviesSlice } from './features/movies/moviesSlice'
+import { movieByIdSlice, moviesSlice } from './features'
 
 export const store = configureStore({
   reducer: {
