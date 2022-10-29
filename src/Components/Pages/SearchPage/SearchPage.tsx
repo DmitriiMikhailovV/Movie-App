@@ -10,10 +10,15 @@ import {
   IconButton,
 } from '@mui/material'
 import { SearchedMovieCard, Pagination } from 'src/Components/generic'
-import { searchMovies } from 'src/Redux/features/movies/moviesSlice'
+import {
+  addRatingOfMovie,
+  searchMovies,
+} from 'src/Redux/features/movies/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 import { useMovieName, usePagination, useYear } from 'src/Components/Hooks'
 import { Clear } from '@mui/icons-material'
+import { TRatedMovie } from 'src/Redux/features/movies/types'
+import { useNavigate } from 'react-router-dom'
 
 export const SearchPage: FC = () => {
   const { movieNameParams, handleMovieNameChange, deleteMovieName } =
@@ -24,7 +29,7 @@ export const SearchPage: FC = () => {
   const [movieName, setMovieName] = useState<string>(movieNameParams)
   const [movieYear, setMovieYear] = useState<string>(yearParams)
   const { ratedMovies } = useAppSelector((state) => state.moviesData)
-
+  const navigate = useNavigate()
   const {
     moviesData,
     totalResults,
@@ -56,6 +61,24 @@ export const SearchPage: FC = () => {
   const onClearYear = () => {
     setMovieYear('')
     deleteYear()
+  }
+
+  const onChangeRating = (
+    rating: TRatedMovie | undefined,
+    newValue: number | null,
+    imdbID: string
+  ) => {
+    dispatch(
+      addRatingOfMovie({
+        ...rating,
+        rating: newValue,
+        imdbID: imdbID,
+      })
+    )
+  }
+
+  const navigateToMovieDetail = (imdbID: string) => {
+    navigate(`/movie/${imdbID}`)
   }
 
   errorMoviesData && console.log(errorMoviesData)
@@ -141,6 +164,8 @@ export const SearchPage: FC = () => {
                   Title={Title}
                   Year={Year}
                   rating={ratedMovies.find((movie) => movie.imdbID === imdbID)}
+                  onChange={onChangeRating}
+                  navigate={navigateToMovieDetail}
                 />
               ))
             )}

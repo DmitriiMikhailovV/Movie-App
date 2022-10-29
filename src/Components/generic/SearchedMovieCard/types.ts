@@ -6,4 +6,10 @@ export type TMovieCard = {
   Title: string
   Year: string
   rating: TRatedMovie | undefined
+  onChange: (
+    rating: TRatedMovie | undefined,
+    newValue: number | null,
+    imdbID: string
+  ) => void
+  navigate: (imdbID: string) => void
 }

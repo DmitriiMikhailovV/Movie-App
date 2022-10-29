@@ -8,10 +8,6 @@ import {
   Button,
 } from '@mui/material'
 import type { TMovieCard } from './types'
-import { useNavigate } from 'react-router-dom'
-import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
-import { AppDispatch } from 'src/Redux/store'
-import { useDispatch } from 'react-redux'
 
 export const SearchedMovieCard: FC<TMovieCard> = ({
   imdbID,
@@ -19,20 +15,9 @@ export const SearchedMovieCard: FC<TMovieCard> = ({
   Title,
   Year,
   rating,
+  onChange,
+  navigate,
 }) => {
-  const dispatch = useDispatch<AppDispatch>()
-  const navigate = useNavigate()
-
-  const onChangeRating = (newValue: number | null) => {
-    dispatch(
-      addRatingOfMovie({
-        ...rating,
-        rating: newValue,
-        imdbID: imdbID,
-      })
-    )
-  }
-
   return (
     <Card
       sx={{
@@ -60,16 +45,13 @@ export const SearchedMovieCard: FC<TMovieCard> = ({
         <Rating
           value={rating?.rating}
           onChange={(e, newValue) => {
-            onChangeRating(newValue)
+            onChange(rating, newValue, imdbID)
           }}
         />
         <Typography gutterBottom variant="h6">
           {Title} ({Year})
         </Typography>
-        <Button
-          onClick={() => navigate(`/movie/${imdbID}`)}
-          variant="contained"
-        >
+        <Button onClick={() => navigate(imdbID)} variant="contained">
           Detail
         </Button>
       </CardContent>
