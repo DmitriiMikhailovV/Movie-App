@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.11",
     "@reduxjs/toolkit": "^1.8.6",
@@ -46,7 +48,6 @@
   "author": "Dmitrii Mikhailov <mihaylovdmitriy3@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/react": "^18.0.23",
-    "@types/styled-components": "^5.1.26"
+    "@types/react": "^18.0.23"
   }
 }
