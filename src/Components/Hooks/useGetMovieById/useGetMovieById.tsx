@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import { baseUrl } from 'src/config'
 import { TMovieFullDetail } from './types'
 
-const url = process.env.REACT_APP_BASE_URL as string
+const url = baseUrl
 const apiKey = process.env.REACT_APP_API_KEY as string
 
 export const useGetMovieById = (imdbID: string | undefined) => {

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { baseUrl } from 'src/config'
 import type { TMovie, TMovieStore, TSearchMovie } from './types'
 
 const initialState: TMovieStore = {
@@ -12,7 +13,7 @@ const initialState: TMovieStore = {
   ratedMovies: [],
 }
 
-const url = process.env.REACT_APP_BASE_URL as string
+const url = baseUrl
 const apiKey = process.env.REACT_APP_API_KEY as string
 
 export const searchMovies = createAsyncThunk<
