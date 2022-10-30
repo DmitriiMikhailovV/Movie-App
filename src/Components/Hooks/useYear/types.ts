@@ -1,7 +1,7 @@
 export type TUseYear = {
   yearParams: string
-  handleYearChange: (year: string) => void
-  deleteYear: () => void
+  yearChangeParams: (year: string) => void
+  deleteYearParams: () => void
 }
 
 export enum YearQuery {

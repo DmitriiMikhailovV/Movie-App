@@ -15,21 +15,22 @@ export const useMovieName = (): TUseMovieName => {
   const movieNameParams =
     queryMovieName !== null ? queryMovieName : _defaultMovieNameState.movieName
 
-  const handleMovieNameChange = (newMovieName: string): void => {
+  const movieNameChangeParams = (newMovieName: string): void => {
     searchParams.set(MovieNameQuery.movieName, newMovieName)
     searchParams.set(PageQuery.page, String(1))
     searchParams.delete(YearQuery.year)
     setSearchParams(searchParams)
   }
 
-  const deleteMovieName = () => {
+  const deleteMovieNameParams = () => {
     searchParams.delete(MovieNameQuery.movieName)
+    searchParams.delete(YearQuery.year)
     setSearchParams(searchParams)
   }
 
   return {
     movieNameParams,
-    handleMovieNameChange,
-    deleteMovieName,
+    movieNameChangeParams,
+    deleteMovieNameParams,
   }
 }

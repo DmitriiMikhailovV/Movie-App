@@ -1,6 +1,6 @@
 export type TUsePagination = {
   pageParams: number
-  handlePageChange: (page: number) => void
+  pageChangeParams: (page: number) => void
 }
 
 export enum PageQuery {

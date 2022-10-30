@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom'
 
-import { TUsePagination, PageQuery } from './types'
+import { PageQuery, TUsePagination } from '../usePagination/types'
 
 export const usePagination = (): TUsePagination => {
   const [searchParams, setSearchParams] = useSearchParams()

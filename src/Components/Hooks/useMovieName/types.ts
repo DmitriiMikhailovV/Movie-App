@@ -1,7 +1,7 @@
 export type TUseMovieName = {
   movieNameParams: string
-  handleMovieNameChange: (movieName: string) => void
-  deleteMovieName: () => void
+  movieNameChangeParams: (movieName: string) => void
+  deleteMovieNameParams: () => void
 }
 
 export enum MovieNameQuery {

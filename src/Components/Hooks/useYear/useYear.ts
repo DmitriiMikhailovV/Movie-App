@@ -12,19 +12,19 @@ export const useYear = (): TUseYear => {
   const queryYear = searchParams.get(YearQuery.year)
   const yearParams = queryYear !== null ? queryYear : _defaultYearState.year
 
-  const handleYearChange = (newYear: string): void => {
+  const yearChangeParams = (newYear: string): void => {
     searchParams.set(YearQuery.year, newYear)
     setSearchParams(searchParams)
   }
 
-  const deleteYear = () => {
+  const deleteYearParams = () => {
     searchParams.delete(YearQuery.year)
     setSearchParams(searchParams)
   }
 
   return {
     yearParams,
-    handleYearChange,
-    deleteYear,
+    yearChangeParams,
+    deleteYearParams,
   }
 }

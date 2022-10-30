@@ -23,10 +23,10 @@ import { useMovieName, usePagination, useYear } from 'src/Components/Hooks'
 import type { TRatedMovie } from 'src/Redux/features/movies/types'
 
 export const SearchPage: FC = () => {
-  const { movieNameParams, handleMovieNameChange, deleteMovieName } =
+  const { movieNameParams, movieNameChangeParams, deleteMovieNameParams } =
     useMovieName()
-  const { pageParams, handlePageChange } = usePagination()
-  const { yearParams, handleYearChange, deleteYear } = useYear()
+  const { pageParams, pageChangeParams } = usePagination()
+  const { yearParams, yearChangeParams, deleteYearParams } = useYear()
   const [page, setPage] = useState<number>(pageParams)
   const [movieName, setMovieName] = useState<string>(movieNameParams)
   const [movieYear, setMovieYear] = useState<string>(yearParams)
@@ -45,27 +45,27 @@ export const SearchPage: FC = () => {
   const onChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage)
     dispatch(searchMovies({ page: newPage, movieName, movieYear }))
-    handlePageChange(newPage)
+    pageChangeParams(newPage)
   }
 
-  const onSearch = () => {
+  const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     setPage(1)
-    handleMovieNameChange(movieName)
-    movieYear.length > 0 && handleYearChange(movieYear)
+    movieNameChangeParams(movieName)
+    movieYear.length > 0 && yearChangeParams(movieYear)
     dispatch(searchMovies({ page: 1, movieName, movieYear }))
   }
 
   const onClearMovieName = () => {
     setMovieName('')
-    deleteMovieName()
+    deleteMovieNameParams()
     setMovieYear('')
-    deleteYear()
     dispatch(resetTotalResults())
   }
 
   const onClearYear = () => {
     setMovieYear('')
-    deleteYear()
+    deleteYearParams()
   }
 
   const onChangeRating = (
@@ -92,57 +92,59 @@ export const SearchPage: FC = () => {
     <>
       <Box>
         <Container sx={{ py: 3 }} maxWidth="lg">
-          <Grid
-            container
-            sx={{
-              flexDirection: 'column',
-              alignContent: 'center',
-              marginBottom: '16px',
-            }}
-          >
-            <TextField
-              sx={{ width: 300, maxWidth: '100%', marginY: '8px' }}
-              label="Movie name..."
-              variant="standard"
-              value={movieName}
-              onChange={(e) => setMovieName(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    disabled={movieName.length === 0}
-                    onClick={onClearMovieName}
-                  >
-                    <Clear />
-                  </IconButton>
-                ),
+          <form onSubmit={(e) => onSearch(e)}>
+            <Grid
+              container
+              sx={{
+                flexDirection: 'column',
+                alignContent: 'center',
+                marginBottom: '16px',
               }}
-            />
-            <TextField
-              sx={{ width: 300, maxWidth: '100%', marginY: '8px' }}
-              label="Year..."
-              variant="standard"
-              value={movieYear}
-              onChange={(e) => setMovieYear(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    disabled={movieYear.length === 0}
-                    onClick={onClearYear}
-                  >
-                    <Clear />
-                  </IconButton>
-                ),
-              }}
-            />
-            <Button
-              sx={{ marginY: '8px' }}
-              variant="contained"
-              onClick={onSearch}
-              disabled={movieName.length === 0}
             >
-              Search
-            </Button>
-          </Grid>
+              <TextField
+                sx={{ width: 300, maxWidth: '100%', marginY: '8px' }}
+                label="Movie name..."
+                variant="standard"
+                value={movieName}
+                onChange={(e) => setMovieName(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      disabled={movieName.length === 0}
+                      onClick={onClearMovieName}
+                    >
+                      <Clear />
+                    </IconButton>
+                  ),
+                }}
+              />
+              <TextField
+                sx={{ width: 300, maxWidth: '100%', marginY: '8px' }}
+                label="Year..."
+                variant="standard"
+                value={movieYear}
+                onChange={(e) => setMovieYear(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      disabled={movieYear.length === 0}
+                      onClick={onClearYear}
+                    >
+                      <Clear />
+                    </IconButton>
+                  ),
+                }}
+              />
+              <Button
+                sx={{ marginY: '8px' }}
+                variant="contained"
+                type="submit"
+                disabled={movieName.length === 0}
+              >
+                Search
+              </Button>
+            </Grid>
+          </form>
           {totalResults && (
             <Grid
               container
