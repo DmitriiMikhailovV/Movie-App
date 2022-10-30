@@ -43,9 +43,11 @@ export const SearchPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>()
 
   const onChangePage = (e: ChangeEvent<unknown>, newPage: number) => {
-    setPage(newPage)
-    dispatch(searchMovies({ page: newPage, movieName, movieYear }))
-    pageChangeParams(newPage)
+    if (page !== newPage) {
+      setPage(newPage)
+      dispatch(searchMovies({ page: newPage, movieName, movieYear }))
+      pageChangeParams(newPage)
+    }
   }
 
   const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
