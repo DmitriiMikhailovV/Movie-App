@@ -1,0 +1,1 @@
+export { useGetFullDetailRatedMovies } from './useGetFullDetailRatedMovies'

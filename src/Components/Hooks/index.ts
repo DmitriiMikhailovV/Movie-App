@@ -1,4 +1,6 @@
 export { useMovieName } from './useMovieName'
 export { usePagination } from './usePagination'
 export { useYear } from './useYear'
-export { useFetchMovieById } from './useFetchMovieById'
+export { useGetMovieById } from './useGetMovieById'
+export { useGetFullDetailRatedMovies } from './useGetFullDetailRatedMovies'
+export { useGetGenres } from './useGetGenres'

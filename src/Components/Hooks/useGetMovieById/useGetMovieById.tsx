@@ -5,7 +5,7 @@ import { TMovieFullDetail } from './types'
 const url = process.env.REACT_APP_BASE_URL as string
 const apiKey = process.env.REACT_APP_API_KEY as string
 
-export const useFetchMovieById = (imdbID: string | undefined) => {
+export const useGetMovieById = (imdbID: string | undefined) => {
   const [movie, setMovie] = useState<TMovieFullDetail | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [apiError, setApiError] = useState<string | null>(null)

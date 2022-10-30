@@ -1,0 +1,1 @@
+export { useGetMovieById } from './useGetMovieById'

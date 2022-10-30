@@ -11,13 +11,13 @@ import {
 } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useFetchMovieById } from 'src/Components/Hooks'
+import { useGetMovieById } from 'src/Components/Hooks'
 import { addRatingOfMovie } from 'src/Redux/features/movies/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 
 export const MoviePage: FC = () => {
   const { imdbID } = useParams()
-  const { movie, loading, apiError, error } = useFetchMovieById(imdbID)
+  const { movie, loading, apiError, error } = useGetMovieById(imdbID)
   const { ratedMovies } = useAppSelector((state) => state.moviesData)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
@@ -36,19 +36,19 @@ export const MoviePage: FC = () => {
 
   return (
     <>
-      {loading ? (
-        <CircularProgress />
-      ) : apiError ? (
-        apiError
-      ) : (
-        <Grid
-          container
-          sx={{
-            flexDirection: 'column',
-            alignContent: 'center',
-            marginBottom: '16px',
-          }}
-        >
+      <Grid
+        container
+        sx={{
+          flexDirection: 'column',
+          alignContent: 'center',
+          marginBottom: '16px',
+        }}
+      >
+        {loading ? (
+          <CircularProgress />
+        ) : apiError ? (
+          apiError
+        ) : (
           <Card
             sx={{
               display: 'flex',
@@ -117,8 +117,8 @@ export const MoviePage: FC = () => {
               </Grid>
             </CardContent>
           </Card>
-        </Grid>
-      )}
+        )}
+      </Grid>
     </>
   )
 }

@@ -1,1 +1,0 @@
-export { useFetchMovieById } from './useFetchMovieById'
