@@ -1,4 +1,4 @@
-import { TPages } from './types'
+import type { TPages } from './types'
 
 export const useMockPages = (): {
   pages: Array<TPages>

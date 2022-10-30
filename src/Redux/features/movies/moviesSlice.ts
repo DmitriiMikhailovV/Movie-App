@@ -40,30 +40,23 @@ export const moviesSlice = createSlice({
   initialState,
   reducers: {
     addRatingOfMovie: (state, action): TMovieStore => {
-      if (
-        state.ratedMovies.find(({ imdbID }) => imdbID === action.payload.imdbID)
-      ) {
-        if (action.payload.rating === null) {
-          return {
-            ...state,
-            ratedMovies: state.ratedMovies.filter(
-              (movie) => movie.imdbID !== action.payload.imdbID
-            ),
-          }
-        } else {
-          return {
-            ...state,
-            ratedMovies: state.ratedMovies.map((movie) =>
-              movie.imdbID === action.payload.imdbID ? action.payload : movie
-            ),
-          }
-        }
-      } else {
-        return {
-          ...state,
-          ratedMovies: [...state.ratedMovies, action.payload],
-        }
-      }
+      return state.ratedMovies.find(
+        ({ imdbID }) => imdbID === action.payload.imdbID
+      )
+        ? action.payload.rating === null
+          ? {
+              ...state,
+              ratedMovies: state.ratedMovies.filter(
+                (movie) => movie.imdbID !== action.payload.imdbID
+              ),
+            }
+          : {
+              ...state,
+              ratedMovies: state.ratedMovies.map((movie) =>
+                movie.imdbID === action.payload.imdbID ? action.payload : movie
+              ),
+            }
+        : { ...state, ratedMovies: [...state.ratedMovies, action.payload] }
     },
     resetTotalResults: (state) => {
       return {

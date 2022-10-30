@@ -7,6 +7,7 @@ import {
   Rating,
   Button,
 } from '@mui/material'
+
 import type { TMovieCard } from './types'
 
 export const SearchedMovieCard: FC<TMovieCard> = ({

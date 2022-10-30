@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import {
   Button,
   Card,
@@ -8,7 +9,6 @@ import {
   Rating,
   Typography,
 } from '@mui/material'
-import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchMovieById } from 'src/Components/Hooks'

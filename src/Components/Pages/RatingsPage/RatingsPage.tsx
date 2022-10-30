@@ -16,7 +16,7 @@ export const RatingsPage: FC = () => {
   const url = process.env.REACT_APP_BASE_URL as string
   const apiKey = process.env.REACT_APP_API_KEY as string
 
-  const getFullDetail = async () => {
+  const getFullDetailMovies = async () => {
     let movieArraywithFullDetails: Array<
       TMovieFullDetail & { rating: number | null }
     > = []
@@ -49,7 +49,7 @@ export const RatingsPage: FC = () => {
   }
 
   useEffect(() => {
-    getFullDetail()
+    getFullDetailMovies()
   }, [])
 
   useEffect(() => {

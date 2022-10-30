@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { FC, ChangeEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   Box,
@@ -9,6 +9,8 @@ import {
   CircularProgress,
   IconButton,
 } from '@mui/material'
+import { Clear } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 import { SearchedMovieCard, Pagination } from 'src/Components/generic'
 import {
   addRatingOfMovie,
@@ -17,9 +19,8 @@ import {
 } from 'src/Redux/features/movies/moviesSlice'
 import { AppDispatch, useAppSelector } from 'src/Redux/store'
 import { useMovieName, usePagination, useYear } from 'src/Components/Hooks'
-import { Clear } from '@mui/icons-material'
-import { TRatedMovie } from 'src/Redux/features/movies/types'
-import { useNavigate } from 'react-router-dom'
+
+import type { TRatedMovie } from 'src/Redux/features/movies/types'
 
 export const SearchPage: FC = () => {
   const { movieNameParams, handleMovieNameChange, deleteMovieName } =
